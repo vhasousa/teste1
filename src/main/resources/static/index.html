@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca SENAI</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <p class="eyebrow">Sistema de Biblioteca</p>
+            <h1>Controle de empréstimos</h1>
+        </div>
+        <button class="button primary" id="open-register">Novo empréstimo</button>
+    </header>
+
+    <main class="container">
+        <section class="summary" aria-label="Resumo dos empréstimos">
+            <article class="summary-card">
+                <span>Total</span>
+                <strong id="total-count">-</strong>
+            </article>
+            <article class="summary-card success">
+                <span>Ativos</span>
+                <strong id="active-count">-</strong>
+            </article>
+            <article class="summary-card danger">
+                <span>Atrasados</span>
+                <strong id="late-count">-</strong>
+            </article>
+            <article class="summary-card warning">
+                <span>Multas em aberto</span>
+                <strong id="fine-total">-</strong>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">Consulta</p>
+                    <h2>Empréstimos</h2>
+                </div>
+                <button class="button secondary" id="refresh">Atualizar</button>
+            </div>
+
+            <div class="toolbar">
+                <div class="filters" role="group" aria-label="Filtros">
+                    <button class="filter active" data-filter="all">Todos</button>
+                    <button class="filter" data-filter="active">Ativos</button>
+                    <button class="filter" data-filter="late">Atrasados</button>
+                </div>
+
+                <form class="student-search" id="student-search">
+                    <label for="student-id">Histórico por aluno</label>
+                    <div>
+                        <input id="student-id" type="number" min="1" placeholder="ID do aluno" required>
+                        <button class="button secondary" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="message hidden" id="message" role="status"></div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Aluno</th>
+                            <th>Livro</th>
+                            <th>Empréstimo</th>
+                            <th>Previsão</th>
+                            <th>Situação</th>
+                            <th>Atraso</th>
+                            <th>Multa</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="loan-list"></tbody>
+                </table>
+            </div>
+
+            <div class="empty hidden" id="empty-state">
+                Nenhum empréstimo encontrado.
+            </div>
+        </section>
+    </main>
+
+    <dialog id="register-dialog">
+        <form id="register-form">
+            <div class="dialog-header">
+                <div>
+                    <p class="eyebrow">Cadastro</p>
+                    <h2>Novo empréstimo</h2>
+                </div>
+                <button class="icon-button close-dialog" type="button" aria-label="Fechar">×</button>
+            </div>
+
+            <label for="register-student">ID do aluno</label>
+            <input id="register-student" type="number" min="1" required>
+
+            <label for="register-book">ID do livro</label>
+            <input id="register-book" type="number" min="1" required>
+
+            <label for="register-date">Data prevista para devolução</label>
+            <input id="register-date" type="date" required>
+
+            <div class="dialog-actions">
+                <button class="button secondary close-dialog" type="button">Cancelar</button>
+                <button class="button primary" type="submit">Cadastrar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="renew-dialog">
+        <form id="renew-form">
+            <div class="dialog-header">
+                <div>
+                    <p class="eyebrow">Atualização</p>
+                    <h2>Renovar empréstimo</h2>
+                </div>
+                <button class="icon-button close-dialog" type="button" aria-label="Fechar">×</button>
+            </div>
+
+            <input id="renew-id" type="hidden">
+
+            <label for="renew-date">Nova data prevista</label>
+            <input id="renew-date" type="date" required>
+
+            <div class="dialog-actions">
+                <button class="button secondary close-dialog" type="button">Cancelar</button>
+                <button class="button primary" type="submit">Renovar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div class="toast hidden" id="toast" role="alert"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

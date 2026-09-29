@@ -2,6 +2,7 @@ package br.com.senai.teste.model;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ public class Emprestimo {
     private LocalDate dataEmprestimo;
     private LocalDate dataDevolucao;
     private LocalDate dataPrevistaDevolucao;
+    private static final BigDecimal MULTA_POR_DIA = new BigDecimal("2.00");
 
     @ManyToOne
     @JoinColumn(name = "aluno_id", nullable = false)
@@ -101,16 +103,32 @@ public class Emprestimo {
 
     public long getDiasAtraso() {
 
-        if (dataDevolucao != null
-                || dataPrevistaDevolucao == null
-                || !dataPrevistaDevolucao.isBefore(
-                        LocalDate.now())) {
+        if (dataPrevistaDevolucao == null) {
+            return 0;
+        }
+
+        LocalDate dataFinal;
+
+        if (dataDevolucao != null) {
+            dataFinal = dataDevolucao;
+        } else {
+            dataFinal = LocalDate.now();
+        }
+
+        if (!dataFinal.isAfter(
+                dataPrevistaDevolucao)) {
 
             return 0;
         }
 
         return ChronoUnit.DAYS.between(
                 dataPrevistaDevolucao,
-                LocalDate.now());
+                dataFinal);
+    }
+
+    public BigDecimal getValorMulta() {
+
+        return MULTA_POR_DIA.multiply(
+                BigDecimal.valueOf(getDiasAtraso()));
     }
 }

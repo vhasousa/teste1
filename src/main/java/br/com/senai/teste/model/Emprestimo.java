@@ -109,15 +109,13 @@ public class Emprestimo {
 
         LocalDate dataFinal;
 
-        if (dataDevolucao != null) {
-            dataFinal = dataDevolucao;
-        } else {
+        if (dataDevolucao == null) {
             dataFinal = LocalDate.now();
+        } else {
+            dataFinal = dataDevolucao;
         }
 
-        if (!dataFinal.isAfter(
-                dataPrevistaDevolucao)) {
-
+        if (!dataFinal.isAfter(dataPrevistaDevolucao)) {
             return 0;
         }
 

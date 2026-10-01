@@ -102,6 +102,16 @@ public class EmprestimoController {
         return ResponseEntity.ok(emprestimos);
     }
 
+    @GetMapping("/aluno/{alunoId}/atrasados")
+    public ResponseEntity<List<Emprestimo>> listarAtrasadosPorAluno(
+            @PathVariable Integer alunoId) {
+
+        List<Emprestimo> emprestimos = emprestimoService.listarAtrasadosPorAluno(alunoId);
+
+        return ResponseEntity.ok(emprestimos);
+    }
+
+
     @GetMapping("/atrasados")
     public ResponseEntity<List<Emprestimo>> listarAtrasados() {
 

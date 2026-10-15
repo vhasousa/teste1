@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.senai.teste.model.Livro;
 import br.com.senai.teste.service.LivroService;
@@ -60,8 +62,7 @@ public class LivroController {
             @PathVariable Integer id,
             @Valid @RequestBody Livro novosDados) {
 
-        Optional<Livro> livroAtualizado =
-                livroService.atualizar(id, novosDados);
+        Optional<Livro> livroAtualizado = livroService.atualizar(id, novosDados);
 
         if (livroAtualizado.isPresent()) {
             return ResponseEntity.ok(livroAtualizado.get());
@@ -79,5 +80,17 @@ public class LivroController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/{id}/capa")
+    public ResponseEntity<Livro> enviarCapa(
+            @PathVariable Integer id,
+            @RequestParam("arquivo") MultipartFile arquivo) {
+
+                System.out.println(arquivo.getOriginalFilename());
+
+        Livro livroAtualizado = livroService.salvarCapa(id, arquivo);
+
+        return ResponseEntity.ok(livroAtualizado);
     }
 }

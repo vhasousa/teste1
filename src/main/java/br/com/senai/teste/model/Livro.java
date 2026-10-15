@@ -1,6 +1,5 @@
 package br.com.senai.teste.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +24,16 @@ public class Livro {
 
     @Min(value = 1, message = "O ano deve ser maior que zero")
     private int anoPublicacao;
+
+    private String nomeArquivoCapa;
+
+    public String getNomeArquivoCapa() {
+        return nomeArquivoCapa;
+    }
+
+    public void setNomeArquivoCapa(String nomeArquivoCapa) {
+        this.nomeArquivoCapa = nomeArquivoCapa;
+    }
 
     public Livro() {
     }

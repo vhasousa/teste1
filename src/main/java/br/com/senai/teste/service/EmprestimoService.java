@@ -103,6 +103,12 @@ public class EmprestimoService {
                         LocalDate.now());
     }
 
+    public List<Emprestimo> listarAtrasadosPorAluno(Integer alunoId) {
+        return emprestimoRepository
+                .findByAlunoIdAndDataPrevistaDevolucaoBeforeAndDataDevolucaoIsNull(alunoId,
+                        LocalDate.now());
+    }
+
     public Optional<Emprestimo> renovar(
             Integer id,
             LocalDate novaDataPrevista) {
